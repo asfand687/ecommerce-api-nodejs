@@ -1,3 +1,5 @@
 const router = require("express").Router()
+const { getAllUsers } = require("../controllers/usersController")
 
-// All routes related to users controller
+// Get All Users
+router.get("/", getAllUsers)
