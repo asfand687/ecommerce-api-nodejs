@@ -17,3 +17,4 @@ router.put("/:id", verifyTokenAndAuthorization, updateUser)
 // Delete User
 router.delete("/:id", verifyTokenAndAuthorization, deleteUser)
 
+module.exports = router
