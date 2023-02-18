@@ -27,21 +27,21 @@ const loginUser = async (req, res) => {
 
     !user && res.status(401).json("Wrong User Name");
 
-    await bcrypt.compare(req.body.password, user.password, function (err, result) {
-      if (result) {
-        const accessToken = jwt.sign(
-          {
-            id: user._id,
-            isAdmin: user.isAdmin,
-          },
-          process.env.JWT_SEC,
-          { expiresIn: "3d" }
-        );
+    const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
 
-        const { password, ...others } = user._doc;
-        res.status(200).json({ ...others, accessToken });
-      }
-    })
+    if (isPasswordCorrect) {
+      const accessToken = jwt.sign(
+        {
+          id: user._id,
+          isAdmin: user.isAdmin,
+        },
+        process.env.JWT_SEC,
+        { expiresIn: "3d" }
+      );
+
+      const { password, ...others } = user._doc;
+      res.status(200).json({ ...others, accessToken });
+    } else res.status(500).json({ success: false, data: "The password you entered is incorrect" })
 
 
 
