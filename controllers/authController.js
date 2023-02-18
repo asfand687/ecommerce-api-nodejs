@@ -26,6 +26,7 @@ const loginUser = async (req, res) => {
     );
 
     !user && res.status(401).json("Wrong User Name");
+    console.log(user.password)
 
     const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
 
