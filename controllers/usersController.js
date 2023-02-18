@@ -1,6 +1,6 @@
 const User = require('../models/User')
 
-export const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
   const query = req.query.new
   try {
     const users = query
@@ -13,7 +13,7 @@ export const getAllUsers = async (req, res) => {
 } 
 
 //UPDATE
-export const updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
   if (req.body.password) {
     req.body.password = CryptoJS.AES.encrypt(
       req.body.password,
@@ -36,7 +36,7 @@ export const updateUser = async (req, res) => {
 }
 
 // DELETE USER
-export const deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json("User has been deleted...");
@@ -46,7 +46,7 @@ export const deleteUser = async (req, res) => {
 }
 
 // GET SINGLE USER
-export const getSingleUser = async (req, res) => {
+const getSingleUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const { password, ...others } = user._doc;
@@ -57,7 +57,7 @@ export const getSingleUser = async (req, res) => {
 }
 
 // GET USER STATS
-export const getUserStats = async (req, res) => {
+const getUserStats = async (req, res) => {
   const date = new Date();
   const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
 
@@ -80,4 +80,8 @@ export const getUserStats = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
+}
+
+module.exports = {
+  getUserStats, getSingleUser, deleteUser, updateUser, getAllUsers
 }
