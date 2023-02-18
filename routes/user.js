@@ -12,7 +12,7 @@ router.get("/:id", getSingleUser)
 router.get("/stats", getUserStats)
 
 // Update User
-router.put("/:id", verifyTokenAndAuthorization, updateUser)
+router.put("/:id", updateUser)
 
 // Delete User
 router.delete("/:id", verifyTokenAndAuthorization, deleteUser)
