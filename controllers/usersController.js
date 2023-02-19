@@ -16,7 +16,7 @@ const getAllUsers = async (req, res) => {
 //UPDATE
 const updateUser = async (req, res) => {
   if (req.body.password) {
-    req.body.password = bcrypt.hashSync(req.body.password, 10);
+    req.body.password = await bcrypt.hash(req.body.password, 10);
   }
 
   try {
