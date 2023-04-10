@@ -6,7 +6,7 @@ const registerUser = async (req, res) => {
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 10)
+    password: await bcrypt.hash(req.body.password, 10)
   });
 
   try {
@@ -21,14 +21,13 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.findOne(
       {
-        userName: req.body.username
+        email: req.body.email
       }
     );
 
-    !user && res.status(401).json("Wrong User Name");
-    console.log(user.password)
+    !user && res.status(401).json("Wrong User Name")
 
-    const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
+    const isPasswordCorrect = bcrypt.compareSync(req.body.password, user.password)
 
     if (isPasswordCorrect) {
       const accessToken = jwt.sign(
